@@ -1,0 +1,9 @@
+{"level":"error","msg":"Error 1054 (42S22): Unknown column 'user_name' in 'field list'","time":"2024-05-09 20:11:08"}
+{"level":"info","msg":"Error 1054 (42S22): Unknown column 'user_name' in 'field list'","time":"2024-05-09 20:11:08"}
+{"level":"error","msg":"Error 1054 (42S22): Unknown column 'user_name' in 'field list'","time":"2024-05-09 20:12:50"}
+{"level":"info","msg":"Error 1054 (42S22): Unknown column 'user_name' in 'field list'","time":"2024-05-09 20:12:50"}
+{"level":"error","msg":"Error 1054 (42S22): Unknown column 'user_name' in 'field list'","time":"2024-05-09 20:21:15"}
+{"level":"info","msg":"Error 1054 (42S22): Unknown column 'user_name' in 'field list'","time":"2024-05-09 20:21:15"}
+{"level":"error","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-09 20:23:05"}
+{"level":"info","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-09 20:23:05"}
+{"level":"info","msg":"该手机号已经注册","time":"2024-05-09 20:27:15"}

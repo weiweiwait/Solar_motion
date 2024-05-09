@@ -1,7 +1,6 @@
 package log
 
 import (
-	"Solar_motion/repository/es"
 	"github.com/sirupsen/logrus"
 	"log"
 	"os"
@@ -29,8 +28,9 @@ func InitLog() {
 	logger.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
-	hook := es.EsHookLog()
-	logger.AddHook(hook)
+
+	//hook := es.EsHookLog()
+	//logger.AddHook(hook)
 	LogrusObj = logger
 }
 

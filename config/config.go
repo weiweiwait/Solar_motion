@@ -8,8 +8,9 @@ import (
 var Config *Conf
 
 type Conf struct {
-	Es    *Es               `yaml:"es"`
-	MySql map[string]*MySql `yaml:"mysql"`
+	Es     *Es               `yaml:"es"`
+	MySql  map[string]*MySql `yaml:"mysql"`
+	System *System           `yaml:"system"`
 }
 
 type Es struct {
@@ -26,6 +27,15 @@ type MySql struct {
 	UserName string `yaml:"userName"`
 	Password string `yaml:"password"`
 	Charset  string `yaml:"charset"`
+}
+
+type System struct {
+	AppEnv      string `yaml:"appEnv"`
+	Domain      string `yaml:"domain"`
+	Version     string `yaml:"version"`
+	HttpPort    string `yaml:"httpPort"`
+	Host        string `yaml:"host"`
+	UploadModel string `yaml:"uploadModel"`
 }
 
 func InitConfig() {

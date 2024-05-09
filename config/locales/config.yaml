@@ -1,3 +1,11 @@
+system:
+  domain: mall
+  version: 1.0
+  env: "dev"
+  HttpPort: ":8080"
+  Host: "localhost"
+  UploadModel: "local"
+
 es:
   EsHost: 127.0.0.1
   EsPort: 9200
