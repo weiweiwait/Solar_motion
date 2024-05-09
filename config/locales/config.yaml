@@ -1,0 +1,4 @@
+es:
+  EsHost: 127.0.0.1
+  EsPort: 9200
+  EsIndex: my_log
