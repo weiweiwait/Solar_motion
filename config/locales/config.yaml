@@ -2,3 +2,13 @@ es:
   EsHost: 127.0.0.1
   EsPort: 9200
   EsIndex: my_log
+
+mysql:
+  default:
+    dialect: "mysql"
+    dbHost: "127.0.0.1"
+    dbPort: "3306"
+    dbName: "solar"
+    userName: "root"
+    password: "Fjw20030504"
+    charset: "utf8mb4"

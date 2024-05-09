@@ -2,6 +2,9 @@ package api
 
 import (
 	"Solar_motion/config"
+	"Solar_motion/pkg/e"
+	"Solar_motion/pkg/utils/ctl"
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
