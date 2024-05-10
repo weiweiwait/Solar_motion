@@ -23,7 +23,7 @@ func (dao *UserDao) CreateUser(user *model.User) error {
 	return dao.DB.Table("user").Model(&model.User{}).Create(&user).Error
 }
 
-// ExistOrNotByUserPhoneNumber 根据username判断是否存在该名字
+// ExistOrNotByUserPhoneNumber 根据phone_name判断是否存在该名字
 func (dao *UserDao) ExistOrNotByUserPhoneNumber(phoneNumber string) (user *model.User, exist bool, err error) {
 	var count int64
 	err = dao.DB.Model(&model.User{}).Where("phone_number = ?", phoneNumber).Count(&count).Error
@@ -35,4 +35,14 @@ func (dao *UserDao) ExistOrNotByUserPhoneNumber(phoneNumber string) (user *model
 		return user, false, err
 	}
 	return user, true, nil
+}
+
+// 根据phone_number查询积分
+func (dao *UserDao) QueryIntegral(phoneNumber string) (integral int, err error) {
+	user := model.User{}
+	err = dao.DB.Table("user").Where("phone_number = ?", phoneNumber).First(&user).Error
+	if err != nil {
+		return 0, err
+	}
+	return user.Integral, nil
 }

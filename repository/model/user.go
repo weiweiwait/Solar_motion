@@ -3,6 +3,7 @@ package model
 import "golang.org/x/crypto/bcrypt"
 
 type User struct {
+	ID          uint
 	UserName    string `gorm:"column:username"`
 	Password    string
 	QQ          string

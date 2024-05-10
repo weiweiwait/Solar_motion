@@ -7,3 +7,7 @@
 {"level":"error","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-09 20:23:05"}
 {"level":"info","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-09 20:23:05"}
 {"level":"info","msg":"该手机号已经注册","time":"2024-05-09 20:27:15"}
+{"level":"error","msg":"\u003cnil\u003e","time":"2024-05-09 21:58:50"}
+{"level":"info","msg":"用户不存在","time":"2024-05-09 21:58:50"}
+{"level":"info","msg":"账号/密码不正确","time":"2024-05-09 21:59:49"}
+{"level":"info","msg":"账号/密码不正确","time":"2024-05-09 21:59:52"}

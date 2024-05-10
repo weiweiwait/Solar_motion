@@ -12,7 +12,10 @@ func NewRouter() *gin.Engine {
 	v1 := r.Group("api/v1")
 	{
 		//用户操作
+		//2.用户注册
 		v1.POST("/user/register", api.RegisterHandler())
+		//2.用户登录
+		v1.POST("/user/login", api.UserLoginHandler())
 	}
 	return r
 }

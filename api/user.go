@@ -36,3 +36,25 @@ func RegisterHandler() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
 	}
 }
+
+//用户根据手机号登录
+
+func UserLoginHandler() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		var req types.UserLoginReq
+		if err := context.ShouldBind(&req); err != nil {
+			// 参数校验
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusBadRequest, ErrorResponse(context, err))
+			return
+		}
+		l := service.GetUserSrv()
+		resp, err := l.UserLogin(context.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}

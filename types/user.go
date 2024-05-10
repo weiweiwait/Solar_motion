@@ -6,3 +6,16 @@ type UserRegisterReq struct {
 	PhoneNumber string `form:"phone_number" json:"phone_number"`
 	QQ          string `form:"qq" json:"qq"`
 }
+type UserLoginReq struct {
+	PhoneNumber string `form:"phone_number" json:"phone_number"`
+	Password    string `form:"password" json:"password"`
+}
+type UserTokenData struct {
+	User         interface{} `json:"user"`
+	AccessToken  string      `json:"access_token"`
+	RefreshToken string      `json:"refresh_token"`
+}
+type UserLoginReply struct {
+	PhoneNumber string `form:"password" json:"password"`
+	Integral    int    `form:"integral" json:"integral"`
+}
