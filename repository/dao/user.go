@@ -86,3 +86,10 @@ func (dao *UserDao) UpdateUserPasswordById(uId uint, password string) (err error
 	return dao.DB.Model(&model.User{}).Where("id=?", uId).
 		Updates(map[string]interface{}{"password": password}).Error
 }
+
+// UpdateUserUerNameById 根据 id 更新用户信息
+
+func (dao *UserDao) UpdateUserNameById(uId uint, username string) (err error) {
+	return dao.DB.Model(&model.User{}).Where("id=?", uId).
+		Updates(map[string]interface{}{"username": username}).Error
+}

@@ -30,3 +30,6 @@ type UserSendCode struct {
 	QQ       string `form:"qq" json:"qq"`
 	Code     string `form:"code" json:"code"`
 }
+type UserNameUpdate struct {
+	UserName string `form:"username" json:"username"`
+}

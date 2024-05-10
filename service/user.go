@@ -194,3 +194,13 @@ func (s *UserSrv) ResetCodeVerify(ctx context.Context, req *types.UserSendCode, 
 	}
 	return nil, nil
 }
+
+func (s *UserSrv) UpdateUserName(ctx context.Context, req *types.UserNameUpdate) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	userDao := dao.NewUserDao(ctx)
+	err = userDao.UpdateUserNameById(u.Id, req.UserName)
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
