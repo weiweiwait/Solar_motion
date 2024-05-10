@@ -26,3 +26,10 @@ oss:
   AccessKeySecret: "rSuv7jb6BcmNtdPF38vd0378NWfaJcs5u6Y9kMB8"
   BucketName: "solars"
   QiNiuServer: "http://sd9ahz8vk.hn-bkt.clouddn.com/"
+
+redis:
+  redisDbName: 4
+  redisHost: 127.0.0.1
+  redisPort: 6379
+  redisPassword:
+  redisNetwork: "tcp"

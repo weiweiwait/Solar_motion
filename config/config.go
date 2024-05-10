@@ -12,6 +12,7 @@ type Conf struct {
 	MySql  map[string]*MySql `yaml:"mysql"`
 	System *System           `yaml:"system"`
 	Oss    *Oss              `yaml:"oss"`
+	Redis  *Redis            `yaml:"redis"`
 }
 
 type Es struct {
@@ -45,6 +46,15 @@ type Oss struct {
 	Endpoint        string `yaml:"endPoint"`
 	EndpointOut     string `yaml:"endpointOut"`
 	QiNiuServer     string `yaml:"qiNiuServer"`
+}
+
+type Redis struct {
+	RedisHost     string `yaml:"redisHost"`
+	RedisPort     string `yaml:"redisPort"`
+	RedisUsername string `yaml:"redisUsername"`
+	RedisPassword string `yaml:"redisPwd"`
+	RedisDbName   int    `yaml:"redisDbName"`
+	RedisNetwork  string `yaml:"redisNetwork"`
 }
 
 func InitConfig() {

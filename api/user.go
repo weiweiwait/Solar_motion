@@ -83,3 +83,5 @@ func UserUpdateAvatar() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//用户通过邮箱验证修改密码
