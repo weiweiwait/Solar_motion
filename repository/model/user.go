@@ -3,13 +3,14 @@ package model
 import "golang.org/x/crypto/bcrypt"
 
 type User struct {
-	ID          uint
-	UserName    string `gorm:"column:username"`
-	Password    string
-	QQ          string
-	PhoneNumber string
-	Avatar      string `gorm:"column:avatar"`
-	Integral    int
+	ID           uint
+	UserName     string `gorm:"column:username"`
+	Password     string
+	QQ           string
+	PhoneNumber  string
+	Avatar       string `gorm:"column:avatar"`
+	Integral     int
+	AwardHistory string `gorm:"type:text"`
 }
 
 const (

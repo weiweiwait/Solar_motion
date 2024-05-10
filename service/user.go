@@ -195,6 +195,8 @@ func (s *UserSrv) ResetCodeVerify(ctx context.Context, req *types.UserSendCode, 
 	return nil, nil
 }
 
+//修改名字
+
 func (s *UserSrv) UpdateUserName(ctx context.Context, req *types.UserNameUpdate) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	userDao := dao.NewUserDao(ctx)
@@ -203,4 +205,16 @@ func (s *UserSrv) UpdateUserName(ctx context.Context, req *types.UserNameUpdate)
 		return nil, err
 	}
 	return nil, nil
+}
+
+//查看所有获奖经理
+
+func (s *UserSrv) GetAllPrice(ctx context.Context) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	userDao := dao.NewUserDao(ctx)
+	history, err := userDao.GetAwardHistoryById(u.Id)
+	resp = &types.UserHistory{
+		AwardHistory: history,
+	}
+	return
 }

@@ -93,3 +93,13 @@ func (dao *UserDao) UpdateUserNameById(uId uint, username string) (err error) {
 	return dao.DB.Model(&model.User{}).Where("id=?", uId).
 		Updates(map[string]interface{}{"username": username}).Error
 }
+
+// GetAwardHistoryById 根据 id 获取用户的奖励历史
+func (dao *UserDao) GetAwardHistoryById(uId uint) (awardHistory string, err error) {
+	var user model.User
+	err = dao.DB.Model(&model.User{}).Where("id=?", uId).First(&user).Error
+	if err != nil {
+		return "", err
+	}
+	return user.AwardHistory, nil
+}

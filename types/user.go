@@ -33,3 +33,6 @@ type UserSendCode struct {
 type UserNameUpdate struct {
 	UserName string `form:"username" json:"username"`
 }
+type UserHistory struct {
+	AwardHistory string `form:"awardHistory" json:"award_history"`
+}

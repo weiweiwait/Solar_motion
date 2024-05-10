@@ -150,3 +150,18 @@ func UserUpdateUserName() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//查看所有获奖经理
+
+func GetAllPrices() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		l := service.GetUserSrv()
+		resp, err := l.GetAllPrice(context.Request.Context())
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}
