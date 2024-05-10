@@ -106,4 +106,25 @@ func SendEmail() gin.HandlerFunc {
 	}
 }
 
-//用户通过邮箱验证修改密码
+//用户通过邮箱验证身份并修改密码
+
+func ResetCodeVerify() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		var req types.UserSendCode
+		if err := context.ShouldBind(&req); err != nil {
+			// 参数校验
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusBadRequest, ErrorResponse(context, err))
+			return
+		}
+		accessToken := context.GetHeader("access_token")
+		l := service.GetUserSrv()
+		resp, err := l.ResetCodeVerify(context.Request.Context(), &req, accessToken)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}

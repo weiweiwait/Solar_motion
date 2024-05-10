@@ -156,3 +156,41 @@ func (s *UserSrv) UserSendEmail(ctx context.Context, req *types.UserSendEmail, a
 	err = cache.RedisClient.Set(cache.RedisContext, key, result, 3*time.Minute).Err()
 	return nil, nil
 }
+
+//验证身份
+
+func (s *UserSrv) ResetCodeVerify(ctx context.Context, req *types.UserSendCode, accessToken string) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	userDao := dao.NewUserDao(ctx)
+	key := "email:" + accessToken + ":" + req.QQ
+	exist, _ := cache.RedisClient.Exists(cache.RedisContext, key).Result()
+	if exist == 0 {
+		err := errors.New("请先请求一份邮件")
+		return nil, err
+	}
+	value, err := cache.RedisClient.Get(cache.RedisContext, key).Result()
+	if err != nil {
+		return nil, err
+	}
+	if value == "" {
+		err := errors.New("验证码失效，请重新请求")
+		return nil, err
+	}
+	user1 := &model.User{
+		Password: req.Password,
+	}
+	if err = user1.SetPassword(req.Password); err != nil {
+		log.LogrusObj.Error(err)
+		return
+	}
+	if value == req.Code {
+		err = userDao.UpdateUserPasswordById(u.Id, user1.Password)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err := errors.New("验证码错误")
+		return nil, err
+	}
+	return nil, nil
+}

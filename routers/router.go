@@ -23,6 +23,8 @@ func NewRouter() *gin.Engine {
 			authed.POST("user/update", api.UserUpdateAvatar())
 			//4.获取验证码
 			authed.POST("/user/sendemail", api.SendEmail())
+			//5.修改密码
+			authed.POST("user/update_password", api.ResetCodeVerify())
 		}
 	}
 	return r

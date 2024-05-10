@@ -25,3 +25,8 @@ type UserAvatar struct {
 type UserSendEmail struct {
 	QQ string `form:"qq" json:"qq"`
 }
+type UserSendCode struct {
+	Password string `form:"password" json:"password"`
+	QQ       string `form:"qq" json:"qq"`
+	Code     string `form:"code" json:"code"`
+}

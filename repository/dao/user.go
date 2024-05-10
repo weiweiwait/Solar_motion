@@ -79,3 +79,10 @@ func (dao *UserDao) UserExistsByqq(qq string) (exists bool, err error) {
 	}
 	return count > 0, nil
 }
+
+// UpdateUserPasswordById 根据 id 更新用户信息
+
+func (dao *UserDao) UpdateUserPasswordById(uId uint, password string) (err error) {
+	return dao.DB.Model(&model.User{}).Where("id=?", uId).
+		Updates(map[string]interface{}{"password": password}).Error
+}
