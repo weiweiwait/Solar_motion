@@ -3,9 +3,11 @@ package service
 import (
 	"Solar_motion/config"
 	"Solar_motion/pkg/utils/ctl"
+	"Solar_motion/pkg/utils/email"
 	"Solar_motion/pkg/utils/jwt"
 	"Solar_motion/pkg/utils/log"
 	"Solar_motion/pkg/utils/upload"
+	"Solar_motion/repository/cache"
 	"Solar_motion/repository/dao"
 	"Solar_motion/repository/model"
 	"Solar_motion/types"
@@ -13,6 +15,7 @@ import (
 	"errors"
 	"mime/multipart"
 	"sync"
+	"time"
 )
 
 var UserSrvIns *UserSrv
@@ -124,4 +127,32 @@ func (s *UserSrv) UserAvatarUpload(ctx context.Context, file multipart.File, fil
 
 	return
 
+}
+
+//发送邮件
+
+func (s *UserSrv) UserSendEmail(ctx context.Context, req *types.UserSendEmail, accessToken string) (resp interface{}, err error) {
+
+	key := "email:" + accessToken + ":" + req.QQ
+	pan, _ := cache.RedisClient.Exists(cache.RedisContext, key).Result()
+	if pan == 1 {
+		expire, _ := cache.RedisClient.TTL(cache.RedisContext, key).Result()
+		if expire > 120*time.Second {
+			err := errors.New("请求频繁")
+			return nil, err
+		}
+	}
+	userDao := dao.NewUserDao(ctx)
+	account, _ := userDao.UserExistsByqq(req.QQ)
+	if account == false {
+		err := errors.New("没有该用户")
+		return nil, err
+	}
+	result := email.SendCode(req.QQ)
+	if result == "" {
+		err := errors.New("邮件发送失败，请检查邮件地址是否有效")
+		return nil, err
+	}
+	err = cache.RedisClient.Set(cache.RedisContext, key, result, 3*time.Minute).Err()
+	return nil, nil
 }

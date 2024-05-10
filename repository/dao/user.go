@@ -68,3 +68,14 @@ func (dao *UserDao) UpdateUserAvatarById(uId uint, avatar string) (err error) {
 	return dao.DB.Model(&model.User{}).Where("id=?", uId).
 		Updates(map[string]interface{}{"avatar": avatar}).Error
 }
+
+// 根据qq查询用户是否存在
+
+func (dao *UserDao) UserExistsByqq(qq string) (exists bool, err error) {
+	var count int64
+	err = dao.DB.Table("user").Where("qq = ?", qq).Count(&count).Error
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}

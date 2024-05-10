@@ -13,6 +13,7 @@ type Conf struct {
 	System *System           `yaml:"system"`
 	Oss    *Oss              `yaml:"oss"`
 	Redis  *Redis            `yaml:"redis"`
+	Email  *Email            `yaml:"email"`
 }
 
 type Es struct {
@@ -55,6 +56,12 @@ type Redis struct {
 	RedisPassword string `yaml:"redisPwd"`
 	RedisDbName   int    `yaml:"redisDbName"`
 	RedisNetwork  string `yaml:"redisNetwork"`
+}
+type Email struct {
+	ValidEmail string `yaml:"validEmail"`
+	SmtpHost   string `yaml:"smtpHost"`
+	SmtpEmail  string `yaml:"smtpEmail"`
+	SmtpPass   string `yaml:"smtpPass"`
 }
 
 func InitConfig() {

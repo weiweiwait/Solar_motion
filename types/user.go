@@ -22,3 +22,6 @@ type UserLoginReply struct {
 type UserAvatar struct {
 	Avatar string `form:"avatar" json:"avatar"`
 }
+type UserSendEmail struct {
+	QQ string `form:"qq" json:"qq"`
+}

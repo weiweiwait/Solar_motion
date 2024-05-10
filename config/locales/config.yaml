@@ -33,3 +33,9 @@ redis:
   redisPort: 6379
   redisPassword:
   redisNetwork: "tcp"
+
+email:
+  address: http://localhost:8080/#/vaild/email/
+  smtpHost: "smtp.163.com"
+  smtpEmail: "19891294013@163.com"
+  smtpPass: "DRCJMYFWIGGKGSWM"

@@ -21,6 +21,8 @@ func NewRouter() *gin.Engine {
 		{
 			//3.修改头像
 			authed.POST("user/update", api.UserUpdateAvatar())
+			//4.获取验证码
+			authed.POST("/user/sendemail", api.SendEmail())
 		}
 	}
 	return r

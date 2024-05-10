@@ -3,6 +3,7 @@ package main
 import (
 	"Solar_motion/config"
 	"Solar_motion/pkg/utils/log"
+	"Solar_motion/repository/cache"
 	"Solar_motion/repository/dao"
 	"Solar_motion/routers"
 	"fmt"
@@ -19,6 +20,7 @@ func main() {
 func loading() {
 	config.InitConfig()
 	dao.InitMySQL()
+	cache.InitCache()
 	log.InitLog()
 	fmt.Println("加载配置完成...")
 }
