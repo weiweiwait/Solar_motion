@@ -103,3 +103,20 @@ func (dao *UserDao) GetAwardHistoryById(uId uint) (awardHistory string, err erro
 	}
 	return user.AwardHistory, nil
 }
+
+// GetIntegralById 根据 id 获取用户的奖励历史
+func (dao *UserDao) GetIntegralById(uId uint) (integral int, err error) {
+	var user model.User
+	err = dao.DB.Model(&model.User{}).Where("id=?", uId).First(&user).Error
+	if err != nil {
+		return 0, err
+	}
+	return user.Integral, nil
+}
+
+// UpdateIntegralById 根据 id 更新用户信息
+
+func (dao *UserDao) UpdateIntegralById(uId uint, integral int) (err error) {
+	return dao.DB.Model(&model.User{}).Where("id=?", uId).
+		Updates(map[string]interface{}{"integral": integral}).Error
+}

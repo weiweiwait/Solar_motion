@@ -5,7 +5,7 @@ import (
 	"Solar_motion/pkg/e"
 	"Solar_motion/pkg/utils/ctl"
 	"Solar_motion/pkg/utils/log"
-	"Solar_motion/service"
+	"Solar_motion/service/user"
 	"Solar_motion/types"
 	"errors"
 	"github.com/gin-gonic/gin"
@@ -28,7 +28,7 @@ func RegisterHandler() gin.HandlerFunc {
 			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
 			return
 		}
-		l := service.GetUserSrv()
+		l := user.GetUserSrv()
 		resp, err := l.UserRegister(ctx.Request.Context(), &req)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
@@ -50,7 +50,7 @@ func UserLoginHandler() gin.HandlerFunc {
 			context.JSON(http.StatusBadRequest, ErrorResponse(context, err))
 			return
 		}
-		l := service.GetUserSrv()
+		l := user.GetUserSrv()
 		resp, err := l.UserLogin(context.Request.Context(), &req)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
@@ -73,7 +73,7 @@ func UserUpdateAvatar() gin.HandlerFunc {
 			return
 		}
 		fileSize := fileHeader.Size
-		l := service.GetUserSrv()
+		l := user.GetUserSrv()
 		resp, err := l.UserAvatarUpload(context.Request.Context(), file, fileSize)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
@@ -95,7 +95,7 @@ func SendEmail() gin.HandlerFunc {
 			return
 		}
 		accessToken := context.GetHeader("access_token")
-		l := service.GetUserSrv()
+		l := user.GetUserSrv()
 		resp, err := l.UserSendEmail(context.Request.Context(), &req, accessToken)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
@@ -118,7 +118,7 @@ func ResetCodeVerify() gin.HandlerFunc {
 			return
 		}
 		accessToken := context.GetHeader("access_token")
-		l := service.GetUserSrv()
+		l := user.GetUserSrv()
 		resp, err := l.ResetCodeVerify(context.Request.Context(), &req, accessToken)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
@@ -140,7 +140,7 @@ func UserUpdateUserName() gin.HandlerFunc {
 			context.JSON(http.StatusBadRequest, ErrorResponse(context, err))
 			return
 		}
-		l := service.GetUserSrv()
+		l := user.GetUserSrv()
 		resp, err := l.UpdateUserName(context.Request.Context(), &req)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
@@ -155,7 +155,7 @@ func UserUpdateUserName() gin.HandlerFunc {
 
 func GetAllPrices() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		l := service.GetUserSrv()
+		l := user.GetUserSrv()
 		resp, err := l.GetAllPrice(context.Request.Context())
 		if err != nil {
 			log.LogrusObj.Infoln(err)

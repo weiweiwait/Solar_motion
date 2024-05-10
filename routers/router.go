@@ -46,6 +46,8 @@ func NewRouter() *gin.Engine {
 			authed.POST("user/update_username", api.UserUpdateUserName())
 			//7.查看所有获奖经理
 			authed.GET("user/get_history", api.GetAllPrices())
+			//8.签到
+			authed.GET("/user/sign", api.UserSignIn())
 		}
 	}
 	return r

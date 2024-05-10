@@ -1,4 +1,4 @@
-package service
+package user
 
 import (
 	"Solar_motion/config"

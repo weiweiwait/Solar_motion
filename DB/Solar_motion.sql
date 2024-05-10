@@ -1,4 +1,4 @@
-CREATE TABLE Users(
+CREATE TABLE user(
                       id INT PRIMARY KEY,
                       username VARCHAR(255) NOT NULL,
                       password VARCHAR(255) NOT NULL,
@@ -9,4 +9,9 @@ CREATE TABLE Users(
                       integral INT,
                       awardHistory TEXT,
                       INDEX phone_number_index (phone_number),
+);
+CREATE TABLE UserCheckin(
+                            user_id INT,
+                            checkin_date DATE,
+                            FOREIGN KEY (user_id) REFERENCES user(id)
 );
