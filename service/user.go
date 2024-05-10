@@ -113,7 +113,7 @@ func (s *UserSrv) UserAvatarUpload(ctx context.Context, file multipart.File, fil
 		println(err)
 	}
 	user.Avatar = path
-	err = userDao.UpdateUserById(uId, user)
+	err = userDao.UpdateUserAvatarById(uId, user.Avatar)
 	if err != nil {
 		log.LogrusObj.Error(err)
 		return nil, err
