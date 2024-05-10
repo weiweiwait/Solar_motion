@@ -1,13 +1,17 @@
 package service
 
 import (
+	"Solar_motion/config"
+	"Solar_motion/pkg/utils/ctl"
 	"Solar_motion/pkg/utils/jwt"
 	"Solar_motion/pkg/utils/log"
+	"Solar_motion/pkg/utils/upload"
 	"Solar_motion/repository/dao"
 	"Solar_motion/repository/model"
 	"Solar_motion/types"
 	"context"
 	"errors"
+	"mime/multipart"
 	"sync"
 )
 
@@ -83,4 +87,41 @@ func (s *UserSrv) UserLogin(ctx context.Context, req *types.UserLoginReq) (resp 
 		AccessToken: accessToken,
 	}
 	return
+}
+
+//修改头像
+
+func (s *UserSrv) UserAvatarUpload(ctx context.Context, file multipart.File, fileSize int64) (resp interface{}, err error) {
+	qConfig := config.Config.Oss
+	ImgUrl := qConfig.QiNiuServer
+	println(666)
+	println(ImgUrl)
+	u, err := ctl.GetUserInfo(ctx)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	uId := u.Id
+	userDao := dao.NewUserDao(ctx)
+	user, err := userDao.GetUserById(uId)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	path, err := upload.ToQiNiu(file, fileSize)
+	if err != nil {
+		println(err)
+	}
+	user.Avatar = path
+	err = userDao.UpdateUserById(uId, user)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	resp = &types.UserAvatar{
+		Avatar: path,
+	}
+
+	return
+
 }

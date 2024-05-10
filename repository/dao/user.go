@@ -38,6 +38,7 @@ func (dao *UserDao) ExistOrNotByUserPhoneNumber(phoneNumber string) (user *model
 }
 
 // 根据phone_number查询积分
+
 func (dao *UserDao) QueryIntegral(phoneNumber string) (integral int, err error) {
 	user := model.User{}
 	err = dao.DB.Table("user").Where("phone_number = ?", phoneNumber).First(&user).Error
@@ -45,4 +46,18 @@ func (dao *UserDao) QueryIntegral(phoneNumber string) (integral int, err error) 
 		return 0, err
 	}
 	return user.Integral, nil
+}
+
+//根据id返回user信息
+
+func (dao *UserDao) GetUserById(uId uint) (user *model.User, err error) {
+	err = dao.DB.Table("user").Model(&model.User{}).Where("id=?", uId).
+		First(&user).Error
+	return
+}
+
+// UpdateUserById 根据 id 更新用户信息
+func (dao *UserDao) UpdateUserById(uId uint, user *model.User) (err error) {
+	return dao.DB.Model(&model.User{}).Where("id=?", uId).
+		Updates(&user).Error
 }

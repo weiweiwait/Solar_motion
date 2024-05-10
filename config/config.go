@@ -11,6 +11,7 @@ type Conf struct {
 	Es     *Es               `yaml:"es"`
 	MySql  map[string]*MySql `yaml:"mysql"`
 	System *System           `yaml:"system"`
+	Oss    *Oss              `yaml:"oss"`
 }
 
 type Es struct {
@@ -36,6 +37,14 @@ type System struct {
 	HttpPort    string `yaml:"httpPort"`
 	Host        string `yaml:"host"`
 	UploadModel string `yaml:"uploadModel"`
+}
+type Oss struct {
+	BucketName      string `yaml:"bucketName"`
+	AccessKeyId     string `yaml:"accessKeyId"`
+	AccessKeySecret string `yaml:"accessKeySecret"`
+	Endpoint        string `yaml:"endPoint"`
+	EndpointOut     string `yaml:"endpointOut"`
+	QiNiuServer     string `yaml:"qiNiuServer"`
 }
 
 func InitConfig() {

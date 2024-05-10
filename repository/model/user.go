@@ -8,6 +8,7 @@ type User struct {
 	Password    string
 	QQ          string
 	PhoneNumber string
+	Avatar      string `gorm:"column:avatar"`
 	Integral    int
 }
 

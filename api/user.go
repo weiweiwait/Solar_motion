@@ -1,6 +1,8 @@
 package api
 
 import (
+	"Solar_motion/consts"
+	"Solar_motion/pkg/e"
 	"Solar_motion/pkg/utils/ctl"
 	"Solar_motion/pkg/utils/log"
 	"Solar_motion/service"
@@ -50,6 +52,29 @@ func UserLoginHandler() gin.HandlerFunc {
 		}
 		l := service.GetUserSrv()
 		resp, err := l.UserLogin(context.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}
+
+// 修改头像
+
+func UserUpdateAvatar() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		file, fileHeader, _ := context.Request.FormFile("file")
+		if fileHeader == nil {
+			err := errors.New(e.GetMsg(e.ErrorUploadFile))
+			context.JSON(consts.IlleageRequest, ErrorResponse(context, err))
+			log.LogrusObj.Infoln(err)
+			return
+		}
+		fileSize := fileHeader.Size
+		l := service.GetUserSrv()
+		resp, err := l.UserAvatarUpload(context.Request.Context(), file, fileSize)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
 			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))

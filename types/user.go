@@ -19,3 +19,6 @@ type UserLoginReply struct {
 	PhoneNumber string `form:"password" json:"password"`
 	Integral    int    `form:"integral" json:"integral"`
 }
+type UserAvatar struct {
+	Avatar string `form:"avatar" json:"avatar"`
+}

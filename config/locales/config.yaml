@@ -20,3 +20,9 @@ mysql:
     userName: "root"
     password: "Fjw20030504"
     charset: "utf8mb4"
+
+oss:
+  AccessKeyId: "dUiCN_eHnmhjFX04OUY28HE_WOrqQ_qhuX719blz"
+  AccessKeySecret: "rSuv7jb6BcmNtdPF38vd0378NWfaJcs5u6Y9kMB8"
+  BucketName: "solars"
+  QiNiuServer: "http://sd9ahz8vk.hn-bkt.clouddn.com/"
