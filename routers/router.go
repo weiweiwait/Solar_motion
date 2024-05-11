@@ -48,6 +48,8 @@ func NewRouter() *gin.Engine {
 			authed.GET("user/get_history", api.GetAllPrices())
 			//8.签到
 			authed.GET("/user/sign", api.UserSignIn())
+			//9.运动打卡
+			authed.GET("/user/start_sport", api.StartSport())
 		}
 	}
 	return r

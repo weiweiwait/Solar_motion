@@ -2,10 +2,12 @@ package integral
 
 import (
 	"Solar_motion/pkg/utils/ctl"
+	"Solar_motion/repository/cache"
 	"Solar_motion/repository/dao"
 	"Solar_motion/repository/model"
 	"context"
 	"errors"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -53,6 +55,33 @@ func (s *IntegralSrv) SignIn(ctx context.Context) (resp interface{}, err error) 
 		}
 	} else {
 		err := errors.New("已经签到")
+		return nil, err
+	}
+	return
+}
+
+//运动打卡
+
+func (s *IntegralSrv) StartSport(ctx context.Context) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	time1 := time.Now().UTC().Truncate(24 * time.Hour)
+	timeStr := time1.Format("2006-01-02")
+	myUintAsString := strconv.Itoa(int(u.Id))
+	key := myUintAsString + ":" + timeStr
+	exist, _ := cache.RedisClient.Exists(cache.RedisContext, key).Result()
+	if exist != 0 {
+		err := errors.New("已经打卡")
+		return nil, err
+	}
+	err = cache.RedisClient.Set(cache.RedisContext, key, u.Username, 24*time.Hour).Err()
+	userDao := dao.NewUserDao(ctx)
+	integral, err := userDao.GetIntegralById(u.Id)
+	integral = integral + 10
+	user := &model.User{
+		Integral: integral,
+	}
+	err = userDao.UpdateIntegralById(u.Id, user.Integral)
+	if err != nil {
 		return nil, err
 	}
 	return

@@ -85,6 +85,7 @@ func UserUpdateAvatar() gin.HandlerFunc {
 }
 
 // 发送邮件
+
 func SendEmail() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		var req types.UserSendEmail

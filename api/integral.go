@@ -22,3 +22,18 @@ func UserSignIn() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//进行运动
+
+func StartSport() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		l := integral.GetIntegralSrv()
+		resp, err := l.StartSport(context.Request.Context())
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}

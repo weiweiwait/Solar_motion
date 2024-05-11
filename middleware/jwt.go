@@ -51,7 +51,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 		SetToken(context, newAccessToken)
-		context.Request = context.Request.WithContext(ctl.NewContext(context.Request.Context(), &ctl.UserInfo{Id: claims.ID}))
+		context.Request = context.Request.WithContext(ctl.NewContext(context.Request.Context(), &ctl.UserInfo{Id: claims.ID, Username: claims.Username}))
 		ctl.InitUserInfo(context.Request.Context())
 		context.Next()
 	}
