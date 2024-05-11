@@ -64,6 +64,7 @@ func (s *IntegralSrv) SignIn(ctx context.Context) (resp interface{}, err error) 
 
 func (s *IntegralSrv) StartSport(ctx context.Context) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
+	println()
 	time1 := time.Now().UTC().Truncate(24 * time.Hour)
 	timeStr := time1.Format("2006-01-02")
 	myUintAsString := strconv.Itoa(int(u.Id))
