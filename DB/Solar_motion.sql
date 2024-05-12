@@ -15,3 +15,8 @@ CREATE TABLE UserCheckin(
                             checkin_date DATE,
                             FOREIGN KEY (user_id) REFERENCES user(id)
 );
+CREATE TABLE UserSport(
+                            user_id INT,
+                            sport_date DATE,
+                            FOREIGN KEY (user_id) REFERENCES user(id)
+);

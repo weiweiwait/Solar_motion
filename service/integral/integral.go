@@ -64,7 +64,6 @@ func (s *IntegralSrv) SignIn(ctx context.Context) (resp interface{}, err error) 
 
 func (s *IntegralSrv) StartSport(ctx context.Context) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
-	println()
 	time1 := time.Now().UTC().Truncate(24 * time.Hour)
 	timeStr := time1.Format("2006-01-02")
 	myUintAsString := strconv.Itoa(int(u.Id))
@@ -76,6 +75,11 @@ func (s *IntegralSrv) StartSport(ctx context.Context) (resp interface{}, err err
 	}
 	err = cache.RedisClient.Set(cache.RedisContext, key, u.Username, 24*time.Hour).Err()
 	userDao := dao.NewUserDao(ctx)
+	sportDao := dao.NewSportDao(ctx)
+	sport := &model.UserSport{
+		UserID: u.Id,
+	}
+	err = sportDao.AddSportByUserId(sport)
 	integral, err := userDao.GetIntegralById(u.Id)
 	integral = integral + 10
 	user := &model.User{
