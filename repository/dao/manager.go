@@ -36,3 +36,9 @@ func (dao *ManagerDao) ExistOrNotByManagerPhoneNumber(phoneNumber string) (manag
 	}
 	return manager, true, nil
 }
+
+//根据电话删除user
+
+func (dao *ManagerDao) DeleteManagerUser(username string) error {
+	return dao.DB.Table("user").Where("username = ?", username).Delete(model.Manager{}).Error
+}

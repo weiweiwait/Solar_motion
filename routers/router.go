@@ -55,6 +55,11 @@ func NewRouter() *gin.Engine {
 		v1.POST("/manager/register", api.ManagerRegister())
 		//管理员登录
 		v1.POST("manager/login", api.ManagerLogin())
+		authed1 := v1.Group("/") // 需要登陆保护
+		authed1.Use(middleware.AuthMiddleware())
+		{
+			authed1.DELETE("/manager/delete", api.ManagerDeleteUser())
+		}
 	}
 	return r
 }

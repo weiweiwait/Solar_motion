@@ -82,3 +82,13 @@ func (s *ManagerSrv) ManagerLogin(ctx context.Context, req *types.ManagerLoginRe
 	}
 	return
 }
+
+// 管理员删除成员
+func (s *ManagerSrv) ManagerDeleteUser(ctx context.Context, req *types.ManagerDeleteRep) (resp interface{}, err error) {
+	managerDao := dao.NewManagerDao(ctx)
+	err = managerDao.DeleteManagerUser(req.Username)
+	if err != nil {
+		return nil, err
+	}
+	return
+}

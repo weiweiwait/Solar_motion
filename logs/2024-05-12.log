@@ -4,3 +4,4 @@
 {"level":"error","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-12 16:12:46"}
 {"level":"info","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-12 16:12:46"}
 {"level":"info","msg":"该手机号已经注册","time":"2024-05-12 16:16:11"}
+{"level":"info","msg":"Error 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`solar`.`UserCheckin`, CONSTRAINT `UserCheckin_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`))","time":"2024-05-12 17:01:42"}

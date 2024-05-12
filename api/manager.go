@@ -57,3 +57,24 @@ func ManagerLogin() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//管理员删除成员
+
+func ManagerDeleteUser() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		var req types.ManagerDeleteRep
+		if err := context.ShouldBind(&req); err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		l := manager.GetManagerSrv()
+		resp, err := l.ManagerDeleteUser(context.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}

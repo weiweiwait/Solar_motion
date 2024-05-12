@@ -18,3 +18,6 @@ type ManagerTokenData struct {
 	AccessToken  string      `json:"access_token"`
 	RefreshToken string      `json:"refresh_token"`
 }
+type ManagerDeleteRep struct {
+	Username string `form:"username" json:"username"`
+}
