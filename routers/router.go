@@ -51,7 +51,10 @@ func NewRouter() *gin.Engine {
 			//9.运动打卡
 			authed.GET("/user/start_sport", api.StartSport())
 		}
+		//管理员注册
 		v1.POST("/manager/register", api.ManagerRegister())
+		//管理员登录
+		v1.POST("manager/login", api.ManagerLogin())
 	}
 	return r
 }

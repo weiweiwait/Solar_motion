@@ -16,7 +16,7 @@ type UserTokenData struct {
 	RefreshToken string      `json:"refresh_token"`
 }
 type UserLoginReply struct {
-	PhoneNumber string `form:"password" json:"password"`
+	PhoneNumber string `form:"phone_number" json:"phone_number"`
 	Integral    int    `form:"integral" json:"integral"`
 }
 type UserAvatar struct {

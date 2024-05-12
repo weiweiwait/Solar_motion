@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"Solar_motion/pkg/utils/jwt"
 	"Solar_motion/pkg/utils/log"
 	"Solar_motion/repository/dao"
 	"Solar_motion/repository/model"
@@ -51,5 +52,33 @@ func (s *ManagerSrv) ManagerRegister(ctx context.Context, req *types.ManagerRegi
 		return
 	}
 
+	return
+}
+
+//管理员登录
+
+func (s *ManagerSrv) ManagerLogin(ctx context.Context, req *types.ManagerLoginReq) (resp interface{}, err error) {
+	var manager *model.Manager
+	managerDao := dao.NewManagerDao(ctx)
+	manager, exist, err := managerDao.ExistOrNotByManagerPhoneNumber(req.PhoneNumber)
+	if !exist {
+		log.LogrusObj.Error(err)
+		return nil, errors.New("用户不存在")
+	}
+	if !manager.CheckManagerPassword(req.Password) {
+		return nil, errors.New("账号/密码不正确")
+	}
+	accessToken, err := jwt.GenerateToken(manager.ID, req.PhoneNumber)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	managerResp := &types.ManagerLoginReply{
+		PhoneNumber: req.PhoneNumber,
+	}
+	resp = &types.ManagerTokenData{
+		User:        managerResp,
+		AccessToken: accessToken,
+	}
 	return
 }
