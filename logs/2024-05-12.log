@@ -1,0 +1,6 @@
+{"level":"info","msg":"已经签到","time":"2024-05-12 15:23:46"}
+{"level":"info","msg":"已经签到","time":"2024-05-12 15:23:47"}
+{"level":"info","msg":"已经打卡","time":"2024-05-12 15:24:46"}
+{"level":"error","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-12 16:12:46"}
+{"level":"info","msg":"Error 1364 (HY000): Field 'id' doesn't have a default value","time":"2024-05-12 16:12:46"}
+{"level":"info","msg":"该手机号已经注册","time":"2024-05-12 16:16:11"}
