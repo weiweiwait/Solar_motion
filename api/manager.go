@@ -8,6 +8,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 //管理员注册
@@ -100,4 +101,34 @@ func ManagerPushActivity() gin.HandlerFunc {
 	}
 }
 
+//管理员查看所有抽奖活动
+
+func ManagerGetAllPrizes() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		pageStr := context.Query("page")
+		pageSizeStr := context.Query("pageSize")
+		page, errPage := strconv.Atoi(pageStr)
+		if errPage != nil || page < 1 {
+			page = 1
+		}
+
+		pageSize, _ := strconv.Atoi(pageSizeStr)
+		l := manager.GetManagerSrv()
+		resp, err := l.ManagerGetAllPrizes(context.Request.Context(), page, pageSize)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}
+
 //管理员开奖
+
+func ManagerSetPrizes() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		//var req types.CarryPrize
+
+	}
+}

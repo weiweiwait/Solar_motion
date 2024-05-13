@@ -128,3 +128,12 @@ func (s *ManagerSrv) ManagerPushPrize(ctx context.Context, req *types.ManagerPus
 	}
 	return
 }
+func (s *ManagerSrv) ManagerGetAllPrizes(ctx context.Context, page int, pageSize int) (resp interface{}, err error) {
+	userDao := dao.NewPrizeDao(ctx)
+	prizes, err := userDao.GetActivePrizes(page, pageSize)
+	if err != nil {
+		return nil, err
+	}
+	resp = prizes
+	return
+}

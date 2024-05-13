@@ -5,3 +5,5 @@
 {"level":"info","msg":"json: cannot unmarshal string into Go struct field UserApply.id of type uint","time":"2024-05-13 21:11:18"}
 {"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-13 21:12:05"}
 {"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-13 21:12:40"}
+{"level":"error","msg":"\u003cnil\u003e","time":"2024-05-13 22:24:31"}
+{"level":"info","msg":"用户不存在","time":"2024-05-13 22:24:31"}

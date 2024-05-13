@@ -68,7 +68,9 @@ func NewRouter() *gin.Engine {
 		{
 			authed1.DELETE("/manager/delete", api.ManagerDeleteUser())
 			//管理员发布抽奖
-			authed.POST("/manager/push", api.ManagerPushActivity())
+			authed1.POST("/manager/push", api.ManagerPushActivity())
+			//管理员查看抽奖活动
+			authed.GET("/manager/get_active", api.ManagerGetAllPrizes())
 		}
 	}
 	return r
