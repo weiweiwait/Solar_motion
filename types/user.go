@@ -36,3 +36,7 @@ type UserNameUpdate struct {
 type UserHistory struct {
 	AwardHistory string `form:"awardHistory" json:"award_history"`
 }
+type UserApply struct {
+	Id   uint   `form:"id" json:"id"`
+	Name string `form:"name" json:"name"`
+}

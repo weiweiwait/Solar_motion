@@ -2,3 +2,6 @@
 {"level":"info","msg":"Error 1292 (22007): Incorrect date value: '0000-00-00' for column 'start_date' at row 1","time":"2024-05-13 16:37:36"}
 {"level":"info","msg":"Error 1292 (22007): Incorrect date value: '0000-00-00' for column 'start_date' at row 1","time":"2024-05-13 16:51:48"}
 {"level":"info","msg":"Error 1054 (42S22): Unknown column 'end_time' in 'where clause'","time":"2024-05-13 16:53:12"}
+{"level":"info","msg":"json: cannot unmarshal string into Go struct field UserApply.id of type uint","time":"2024-05-13 21:11:18"}
+{"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-13 21:12:05"}
+{"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-13 21:12:40"}

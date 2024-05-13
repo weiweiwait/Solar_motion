@@ -227,3 +227,25 @@ func (s *UserSrv) GetAllPrize(ctx context.Context, page int, pageSize int) (resp
 	resp = prizes
 	return
 }
+
+//报名活动
+
+func (s *UserSrv) UserApply(ctx context.Context, req *types.UserApply) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	userDao := dao.NewApplyDao(ctx)
+	Account, _ := userDao.ApplyExistsById(req.Id)
+	if Account == true {
+		err = errors.New("已经报名，不要重复报名")
+		return nil, err
+	}
+	apply := &model.UserApply{
+		UserId:  u.Id,
+		PrizeId: req.Id,
+		Name:    req.Name,
+	}
+	err = userDao.CreateApply(apply)
+	if err != nil {
+		return nil, err
+	}
+	return
+}

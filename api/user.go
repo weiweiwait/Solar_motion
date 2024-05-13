@@ -174,8 +174,6 @@ func GetAllPrize() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		pageStr := context.Query("page")
 		pageSizeStr := context.Query("pageSize")
-		println(pageStr)
-		println(666)
 		page, errPage := strconv.Atoi(pageStr)
 		if errPage != nil || page < 1 {
 			page = 1
@@ -197,6 +195,20 @@ func GetAllPrize() gin.HandlerFunc {
 
 func ApplyActive() gin.HandlerFunc {
 	return func(context *gin.Context) {
-
+		var req types.UserApply
+		if err := context.ShouldBind(&req); err != nil {
+			// 参数校验
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusBadRequest, ErrorResponse(context, err))
+			return
+		}
+		l := user.GetUserSrv()
+		resp, err := l.UserApply(context.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }

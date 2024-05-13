@@ -34,6 +34,12 @@ CREATE TABLE UserDate(
                           draw_date DATE,
                           FOREIGN KEY (user_id) REFERENCES manager(id)
 );
+CREATE TABLE UserApply(
+                         user_id INT,
+                         prize_id INT,
+                         name VARCHAR(255) NOT NULL,
+                         create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 CREATE TABLE carry_prize(
                             user_id INT,
                             carry_date DATE,
