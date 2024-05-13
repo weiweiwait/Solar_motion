@@ -1,2 +1,4 @@
 {"level":"info","msg":"json: cannot unmarshal string into Go struct field ManagerPushReq.sum of type int","time":"2024-05-13 16:37:21"}
 {"level":"info","msg":"Error 1292 (22007): Incorrect date value: '0000-00-00' for column 'start_date' at row 1","time":"2024-05-13 16:37:36"}
+{"level":"info","msg":"Error 1292 (22007): Incorrect date value: '0000-00-00' for column 'start_date' at row 1","time":"2024-05-13 16:51:48"}
+{"level":"info","msg":"Error 1054 (42S22): Unknown column 'end_time' in 'where clause'","time":"2024-05-13 16:53:12"}
