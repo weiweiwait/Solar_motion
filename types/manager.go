@@ -21,3 +21,10 @@ type ManagerTokenData struct {
 type ManagerDeleteRep struct {
 	Username string `form:"username" json:"username"`
 }
+type ManagerPushReq struct {
+	Name       string `form:"name" json:"name"`
+	Describ    string `form:"describ" json:"describ"`
+	Start_Date string `form:"start_date" json:"start_date"`
+	End_Date   string `form:"end_date" json:"end_date"`
+	Sum        int    `form:"sum" json:"sum"`
+}

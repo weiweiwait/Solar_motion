@@ -59,6 +59,8 @@ func NewRouter() *gin.Engine {
 		authed1.Use(middleware.AuthMiddleware())
 		{
 			authed1.DELETE("/manager/delete", api.ManagerDeleteUser())
+			//管理员发布抽奖
+			authed.POST("/manager/push", api.ManagerPushActivity())
 		}
 	}
 	return r

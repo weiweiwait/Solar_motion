@@ -1,0 +1,2 @@
+{"level":"info","msg":"json: cannot unmarshal string into Go struct field ManagerPushReq.sum of type int","time":"2024-05-13 16:37:21"}
+{"level":"info","msg":"Error 1292 (22007): Incorrect date value: '0000-00-00' for column 'start_date' at row 1","time":"2024-05-13 16:37:36"}

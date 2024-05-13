@@ -25,6 +25,8 @@ CREATE TABLE  Prize(
                        name VARCHAR(255) NOT NULL,
                        describ TEXT,
                        sum  INT,
+                       start_date DATE,
+                       end_date DATE,
                        status INT
 );
 CREATE TABLE UserDate(
