@@ -26,9 +26,12 @@ func (dao *PrizeDao) AddPrizeByManager(prize *model.Prize) (err error) {
 	return dao.DB.Table("Prize").Model(&model.Prize{}).Create(&prize).Error
 }
 
-func (dao *PrizeDao) GetActivePrizes() (*[]model.Prize, error) {
+// 在 dao 方法中加入分页参数，并在查询中加入 Limit 和 Offset
+
+func (dao *PrizeDao) GetActivePrizes(page int, pageSize int) (*[]model.Prize, error) {
 	var prizes []model.Prize
-	if err := dao.DB.Table("Prize").Where("end_date > ?", time.Now().Format("2006-01-02")).Find(&prizes).Error; err != nil {
+	offset := (page - 1) * pageSize
+	if err := dao.DB.Table("Prize").Where("end_date > ?", time.Now().Format("2006-01-02")).Offset(offset).Limit(pageSize).Find(&prizes).Error; err != nil {
 		return nil, err
 	}
 	return &prizes, nil

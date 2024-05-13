@@ -221,9 +221,9 @@ func (s *UserSrv) GetAllPrice(ctx context.Context) (resp interface{}, err error)
 
 //查询所有活动
 
-func (s *UserSrv) GetAllPrize(ctx context.Context) (resp interface{}, err error) {
+func (s *UserSrv) GetAllPrize(ctx context.Context, page int, pageSize int) (resp interface{}, err error) {
 	userDao := dao.NewPrizeDao(ctx)
-	prizes, err := userDao.GetActivePrizes()
+	prizes, err := userDao.GetActivePrizes(page, pageSize)
 	resp = prizes
 	return
 }
