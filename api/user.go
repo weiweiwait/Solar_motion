@@ -212,3 +212,40 @@ func ApplyActive() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//用户查看自己报名情况
+
+func GetAllApplyActivity() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		pageStr := context.Query("page")
+		pageSizeStr := context.Query("pageSize")
+		page, errPage := strconv.Atoi(pageStr)
+		if errPage != nil || page < 1 {
+			page = 1
+		}
+		pageSize, _ := strconv.Atoi(pageSizeStr)
+		l := user.GetUserSrv()
+		resp, err := l.GetAllApplyActivity(context.Request.Context(), page, pageSize)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}
+
+//用户查看自己获奖情况
+
+func GetPrizeAlready() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		l := user.GetUserSrv()
+		resp, err := l.GetAllPrizeAlready(context.Request.Context())
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}

@@ -34,3 +34,14 @@ func (dao *ApplyDao) ApplyExistsById(id uint) (exists bool, err error) {
 	}
 	return count > 0, nil
 }
+
+//查看已经报名的活动
+
+func (dao *ApplyDao) GetActiveAllPrizes(page int, pageSize int, id uint) (*[]model.UserApply, error) {
+	var prizes []model.UserApply
+	offset := (page - 1) * pageSize
+	if err := dao.DB.Table("UserApply").Where("user_id = ?", id).Offset(offset).Limit(pageSize).Find(&prizes).Error; err != nil {
+		return nil, err
+	}
+	return &prizes, nil
+}

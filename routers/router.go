@@ -54,6 +54,10 @@ func NewRouter() *gin.Engine {
 			authed.GET("/user/search_prize", api.GetAllPrize())
 			//11.报名活动
 			authed.POST("/user/apply", api.ApplyActive())
+			//12.查看自己报名的活动
+			authed.GET("/user/get_active", api.GetAllApplyActivity())
+			//13.用户查看自己获奖记录
+			authed.GET("/user/get_prize", api.GetPrizeAlready())
 		}
 		//管理员注册
 		v1.POST("/manager/register", api.ManagerRegister())

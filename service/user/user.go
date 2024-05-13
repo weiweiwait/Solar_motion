@@ -249,3 +249,20 @@ func (s *UserSrv) UserApply(ctx context.Context, req *types.UserApply) (resp int
 	}
 	return
 }
+func (s *UserSrv) GetAllApplyActivity(ctx context.Context, page int, pageSize int) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	userDao := dao.NewApplyDao(ctx)
+	prizes, err := userDao.GetActiveAllPrizes(page, pageSize, u.Id)
+	resp = prizes
+	return
+}
+func (s *UserSrv) GetAllPrizeAlready(ctx context.Context) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	userDao := dao.NewCarryDao(ctx)
+	prizes, err := userDao.QueryById(u.Id)
+	if err != nil {
+		return nil, err
+	}
+	resp = prizes
+	return
+}
