@@ -39,3 +39,13 @@ email:
   smtpHost: "smtp.163.com"
   smtpEmail: "19891294013@163.com"
   smtpPass: "DRCJMYFWIGGKGSWM"
+
+kafka:
+  default:
+    debug: true
+    address: localhost:9092
+    requiredAck: -1 # 发送完数据后是否需要拿多少个副本确认 -1 需要全部
+    readTimeout: 30 # 默认30s
+    writeTimeout: 30 # 默认30s
+    maxOpenRequests: 5  # 在发送阻塞之前，允许有多少个未完成的请求，默认为5
+    partition: 2 # 分区生成方案 0根据topic进行hash、1随机、2轮询

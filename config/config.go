@@ -8,12 +8,13 @@ import (
 var Config *Conf
 
 type Conf struct {
-	Es     *Es               `yaml:"es"`
-	MySql  map[string]*MySql `yaml:"mysql"`
-	System *System           `yaml:"system"`
-	Oss    *Oss              `yaml:"oss"`
-	Redis  *Redis            `yaml:"redis"`
-	Email  *Email            `yaml:"email"`
+	Es     *Es                     `yaml:"es"`
+	MySql  map[string]*MySql       `yaml:"mysql"`
+	System *System                 `yaml:"system"`
+	Oss    *Oss                    `yaml:"oss"`
+	Redis  *Redis                  `yaml:"redis"`
+	Email  *Email                  `yaml:"email"`
+	KafKa  map[string]*KafkaConfig `yaml:"kafKa"`
 }
 
 type Es struct {
@@ -62,6 +63,16 @@ type Email struct {
 	SmtpHost   string `yaml:"smtpHost"`
 	SmtpEmail  string `yaml:"smtpEmail"`
 	SmtpPass   string `yaml:"smtpPass"`
+}
+type KafkaConfig struct {
+	DisableConsumer bool   `yaml:"disableConsumer"`
+	Debug           bool   `yaml:"debug"`
+	Address         string `yaml:"address"`
+	RequiredAck     int    `yaml:"requiredAck"`
+	ReadTimeout     int64  `yaml:"readTimeout"`
+	WriteTimeout    int64  `yaml:"writeTimeout"`
+	MaxOpenRequests int    `yaml:"maxOpenRequests"`
+	Partition       int    `yaml:"partition"`
 }
 
 func InitConfig() {
