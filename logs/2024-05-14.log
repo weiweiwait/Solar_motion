@@ -1,2 +1,4 @@
 {"level":"info","msg":"Error 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`solar`.`carry_prize`, CONSTRAINT `carry_prize_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `manager` (`id`))","time":"2024-05-14 00:23:41"}
 {"level":"info","msg":"Error 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`solar`.`carry_prize`, CONSTRAINT `carry_prize_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `manager` (`id`))","time":"2024-05-14 00:27:58"}
+{"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-14 08:20:10"}
+{"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-14 08:20:40"}

@@ -233,9 +233,20 @@ func (s *UserSrv) GetAllPrize(ctx context.Context, page int, pageSize int) (resp
 func (s *UserSrv) UserApply(ctx context.Context, req *types.UserApply) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	userDao := dao.NewApplyDao(ctx)
+	userDao1 := dao.NewUserDao(ctx)
 	Account, _ := userDao.ApplyExistsById(req.Id)
+	integral, err := userDao1.QueryIntegral(u.Username)
+	if integral < 20 {
+		err = errors.New("积分不够，无法参加")
+		return nil, err
+	}
 	if Account == true {
 		err = errors.New("已经报名，不要重复报名")
+		return nil, err
+	}
+	integral = integral - 20
+	err = userDao1.UpdateIntegralById(u.Id, integral)
+	if err != nil {
 		return nil, err
 	}
 	apply := &model.UserApply{
@@ -249,6 +260,7 @@ func (s *UserSrv) UserApply(ctx context.Context, req *types.UserApply) (resp int
 	}
 	return
 }
+
 func (s *UserSrv) GetAllApplyActivity(ctx context.Context, page int, pageSize int) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	userDao := dao.NewApplyDao(ctx)
