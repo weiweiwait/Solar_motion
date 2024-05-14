@@ -19,6 +19,7 @@ func NewCarryDaoByDB(db *gorm.DB) *CarryDao {
 }
 
 // CreateCarry 创建抽奖记录
+
 func (dao *CarryDao) CreateCarry(user *model.Carry) error {
 	return dao.DB.Table("carry_prize").Model(&model.Carry{}).Create(&user).Error
 }

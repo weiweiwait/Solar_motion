@@ -9,6 +9,7 @@ import (
 	"Solar_motion/types"
 	"context"
 	"errors"
+	"math/rand"
 	"sync"
 	"time"
 )
@@ -135,5 +136,34 @@ func (s *ManagerSrv) ManagerGetAllPrizes(ctx context.Context, page int, pageSize
 		return nil, err
 	}
 	resp = prizes
+	return
+}
+
+//管理员开奖
+
+func (s *ManagerSrv) ManagerStartPrize(ctx context.Context, req *types.CarryPrize) (resp interface{}, err error) {
+	managerDao := dao.NewPrizeDao(ctx)
+	managerDao1 := dao.NewCarryDao(ctx)
+	println(req.PrizeId)
+	participantIds, err := managerDao.GetAllParticipantIds(req.PrizeId)
+	if err != nil {
+		return nil, err
+	}
+	if req.Num >= len(participantIds) {
+		resp = participantIds
+	}
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(participantIds), func(i, j int) { participantIds[i], participantIds[j] = participantIds[j], participantIds[i] })
+	for _, participantId := range participantIds {
+		carry := &model.Carry{
+			UserId: participantId,
+			Name:   req.Name, // This could be retrieved based on ParticipantId
+		}
+		err := managerDao1.CreateCarry(carry)
+		if err != nil {
+			return nil, err
+		}
+	}
+	resp = participantIds[:req.Num]
 	return
 }

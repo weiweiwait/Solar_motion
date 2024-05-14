@@ -43,8 +43,7 @@ CREATE TABLE UserApply(
 CREATE TABLE carry_prize(
                             user_id INT,
                             name VARCHAR(255) NOT NULL,
-                            create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                            FOREIGN KEY (user_id) REFERENCES manager(id)
+                            create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE manager(
                     id INT AUTO_INCREMENT PRIMARY KEY,

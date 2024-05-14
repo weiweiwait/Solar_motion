@@ -128,7 +128,19 @@ func ManagerGetAllPrizes() gin.HandlerFunc {
 
 func ManagerSetPrizes() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		//var req types.CarryPrize
-
+		var req types.CarryPrize
+		if err := context.ShouldBind(&req); err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		l := manager.GetManagerSrv()
+		resp, err := l.ManagerStartPrize(context.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }

@@ -36,3 +36,11 @@ func (dao *PrizeDao) GetActivePrizes(page int, pageSize int) (*[]model.Prize, er
 	}
 	return &prizes, nil
 }
+
+//返回所有抽奖人的id
+
+func (dao *PrizeDao) GetAllParticipantIds(prize_id uint) ([]uint, error) {
+	var participantIds []uint
+	err := dao.DB.Table("UserApply").Model(&model.Carry{}).Where("prize_id = ?", prize_id).Pluck("user_id", &participantIds).Error
+	return participantIds, err
+}
