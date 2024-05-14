@@ -1,8 +1,11 @@
 package manager
 
 import (
+	"Solar_motion/config"
+	"Solar_motion/pkg/utils/ctl"
 	"Solar_motion/pkg/utils/jwt"
 	"Solar_motion/pkg/utils/log"
+	"Solar_motion/pkg/utils/upload"
 	"Solar_motion/repository/cache"
 	"Solar_motion/repository/dao"
 	"Solar_motion/repository/model"
@@ -10,6 +13,7 @@ import (
 	"context"
 	"errors"
 	"math/rand"
+	"mime/multipart"
 	"sync"
 	"time"
 )
@@ -165,5 +169,36 @@ func (s *ManagerSrv) ManagerStartPrize(ctx context.Context, req *types.CarryPriz
 		}
 	}
 	resp = participantIds[:req.Num]
+	return
+}
+
+//管理员上传头像
+
+func (s *ManagerSrv) ManagerAvatarUpload(ctx context.Context, file multipart.File, fileSize int64) (resp interface{}, err error) {
+	qConfig := config.Config.Oss
+	ImgUrl := qConfig.QiNiuServer
+	println(666)
+	println(ImgUrl)
+	managerDao := dao.NewManagerDao(ctx)
+	u, err := ctl.GetUserInfo(ctx)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	uId := u.Id
+	path, err := upload.ToQiNiu(file, fileSize)
+	if err != nil {
+		println(err)
+	}
+	Avatar := path
+	err = managerDao.UpdateManagerAvatarById(uId, Avatar)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	resp = &types.ManagerAvatar{
+		Avatar: path,
+	}
+
 	return
 }

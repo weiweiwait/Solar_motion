@@ -1,6 +1,8 @@
 package api
 
 import (
+	"Solar_motion/consts"
+	"Solar_motion/pkg/e"
 	"Solar_motion/pkg/utils/ctl"
 	"Solar_motion/pkg/utils/log"
 	"Solar_motion/service/manager"
@@ -139,6 +141,29 @@ func ManagerSetPrizes() gin.HandlerFunc {
 		if err != nil {
 			log.LogrusObj.Infoln(err)
 			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}
+
+//管理员上传头像
+
+func ManagerUpdateAvatar() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		file, fileHeader, _ := context.Request.FormFile("file")
+		if fileHeader == nil {
+			err := errors.New(e.GetMsg(e.ErrorUploadFile))
+			context.JSON(consts.IlleageRequest, ErrorResponse(context, err))
+			log.LogrusObj.Infoln(err)
+			return
+		}
+		fileSize := fileHeader.Size
+		l := manager.GetManagerSrv()
+		resp, err := l.ManagerAvatarUpload(context.Request.Context(), file, fileSize)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
 			return
 		}
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))

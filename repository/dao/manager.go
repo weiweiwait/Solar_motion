@@ -42,3 +42,10 @@ func (dao *ManagerDao) ExistOrNotByManagerPhoneNumber(phoneNumber string) (manag
 func (dao *ManagerDao) DeleteManagerUser(username string) error {
 	return dao.DB.Table("user").Where("username = ?", username).Delete(model.Manager{}).Error
 }
+
+// UpdateManagerAvatarById 根据 id 更新用户信息
+
+func (dao *ManagerDao) UpdateManagerAvatarById(uId uint, avatar string) (err error) {
+	return dao.DB.Table("manager").Model(&model.User{}).Where("id=?", uId).
+		Updates(map[string]interface{}{"avatar": avatar}).Error
+}

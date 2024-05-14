@@ -28,3 +28,6 @@ type ManagerPushReq struct {
 	End_Date   string `form:"end_date" json:"end_date"`
 	Sum        int    `form:"sum" json:"sum"`
 }
+type ManagerAvatar struct {
+	Avatar string `form:"avatar" json:"avatar"`
+}

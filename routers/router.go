@@ -70,9 +70,11 @@ func NewRouter() *gin.Engine {
 			//管理员发布抽奖
 			authed1.POST("/manager/push", api.ManagerPushActivity())
 			//管理员查看抽奖活动
-			authed.GET("/manager/get_active", api.ManagerGetAllPrizes())
+			authed1.GET("/manager/get_active", api.ManagerGetAllPrizes())
 			//管理员开奖
-			authed.POST("/manager/start_prize", api.ManagerSetPrizes())
+			authed1.POST("/manager/start_prize", api.ManagerSetPrizes())
+			//管理员上传头像
+			authed1.POST("/manager/update_avatar", api.ManagerUpdateAvatar())
 		}
 	}
 	return r
