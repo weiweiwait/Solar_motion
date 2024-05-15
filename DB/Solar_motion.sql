@@ -61,3 +61,15 @@ CREATE TABLE carry_integral(
                             name VARCHAR(255) NOT NULL,
                             create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE Blog(
+                               id INT AUTO_INCREMENT PRIMARY KEY,
+                               user_id INT,
+                               title VARCHAR(255) NOT NULL,
+                               context TEXT,
+                               create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE Post_images(
+                            blog_id INT,
+                            user_id INT,
+                            images VARCHAR(255)
+)
