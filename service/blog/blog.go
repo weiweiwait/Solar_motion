@@ -76,3 +76,9 @@ func (s *BlogSrv) UserPushPhoto(ctx context.Context, file multipart.File, fileSi
 
 	return
 }
+func (s *BlogSrv) UserGetAllBlog(ctx context.Context, page, pageSize int) (resp interface{}, err error) {
+	userDao := dao.NewBlogDao(ctx)
+	blogs, err := userDao.GetAllBlogs(page, pageSize)
+	resp = blogs
+	return
+}

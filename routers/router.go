@@ -64,6 +64,8 @@ func NewRouter() *gin.Engine {
 			authed.POST("/user/blog", api.UserPushBlog())
 			//16.发布招聘
 			authed.POST("/user/photo", api.UserPushBlogPhoto())
+			//17.查看所有文章
+			authed.GET("/user/get_blogs", api.GetAllBlog())
 		}
 		//管理员注册
 		v1.POST("/manager/register", api.ManagerRegister())

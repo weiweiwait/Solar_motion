@@ -39,3 +39,14 @@ func (dao *BlogDao) GetImagesByUserIdAndBlogId(userid, blogId int) ([]model.Imag
 	}
 	return images, nil
 }
+
+// GetAllBlogs 获取所有文章
+func (dao *BlogDao) GetAllBlogs(page int, pageSize int) ([]model.Blog, error) {
+	offset := (page - 1) * pageSize
+	var blogs []model.Blog
+	err := dao.DB.Table("Blog").Offset(offset).Limit(pageSize).Find(&blogs).Error
+	if err != nil {
+		return nil, err
+	}
+	return blogs, nil
+}
