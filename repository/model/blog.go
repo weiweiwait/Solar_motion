@@ -1,6 +1,7 @@
 package model
 
 type Blog struct {
+	Id       uint
 	UserId   uint `gorm:"column:user_id"`
 	Title    string
 	Contexts string `gorm:"type:text"`
