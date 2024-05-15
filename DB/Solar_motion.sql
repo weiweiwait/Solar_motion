@@ -54,3 +54,10 @@ CREATE TABLE manager(
                      create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                      INDEX phone_number_index (phone_number)
 );
+CREATE TABLE carry_integral(
+                            id INT AUTO_INCREMENT PRIMARY KEY,
+                            user_id INT,
+                            active_id INT,
+                            name VARCHAR(255) NOT NULL,
+                            create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

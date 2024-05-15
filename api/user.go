@@ -249,3 +249,25 @@ func GetPrizeAlready() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//用户抢积分
+
+func UserGrabPoints() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		var req types.Points
+		if err := context.ShouldBind(&req); err != nil {
+			// 参数校验
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusBadRequest, ErrorResponse(context, err))
+			return
+		}
+		l := user.GetUserSrv()
+		resp, err := l.GrabPoints(context.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusInternalServerError, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}

@@ -12,8 +12,12 @@ import (
 	"Solar_motion/repository/model"
 	"Solar_motion/types"
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
+	"github.com/segmentio/kafka-go"
 	"mime/multipart"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -276,5 +280,147 @@ func (s *UserSrv) GetAllPrizeAlready(ctx context.Context) (resp interface{}, err
 		return nil, err
 	}
 	resp = prizes
+	return
+}
+
+//用户抢积分
+
+// 定义一个存储消息的结构体
+
+type KafkaMessage struct {
+	UserId   int    `json:"user_id"`   // 用户 ID
+	ActiveId int    `json:"active_id"` // 活动 ID
+	Name     string `json:"name"`
+	Sum      int    `json:"sum"`
+}
+
+// 初始化Kafka的生产者
+// kafkaWriter 创建一个新的 kafka writer
+
+var kafkaWriter = kafka.NewWriter(kafka.WriterConfig{
+	Brokers: []string{"localhost:9092"}, //kafka集群地址
+	Topic:   "solar",                    //topic
+})
+
+func (s *UserSrv) GrabPoints(ctx context.Context, req *types.Points) (resp interface{}, err error) {
+	u, err := ctl.GetUserInfo(ctx)
+	active_id := req.ActiveId
+	key := strconv.Itoa(active_id) + req.Name + ":"
+	integral := cache.RedisClient.Get(cache.RedisContext, key)
+	integral1, err := integral.Result()
+	integral2, err := strconv.Atoi(integral1)
+	integral2 = integral2 + 100
+	if integral2 <= 0 {
+		err = errors.New("积分已经抢完")
+		return nil, err
+	}
+	//exist, _ := cache.RedisClient.Exists(cache.RedisContext, key).Result()
+	//if exist == 0 {
+	//	err = errors.New("该活动已经结束")
+	//	return nil, err
+	//}
+	// 生成实例并将其转为 json 数据
+	kafkaMessage := KafkaMessage{
+		UserId:   int(u.Id),
+		ActiveId: req.ActiveId,
+		Name:     req.Name,
+		Sum:      100,
+	}
+	message, err := json.Marshal(kafkaMessage)
+	if err != nil {
+		return nil, err
+	}
+	err = kafkaWriter.WriteMessages(ctx, kafka.Message{Value: message})
+	if err != nil {
+		return nil, err
+	}
+	err = ProcessMessages(ctx, "solar")
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+//消费
+
+func ProcessMessages(ctx context.Context, topic string) (err error) {
+	r := kafka.NewReader(kafka.ReaderConfig{
+		Brokers:     []string{"localhost:9092"},
+		Topic:       topic,
+		Partition:   0,
+		StartOffset: kafka.LastOffset,       // 从最新的开始
+		MaxWait:     500 * time.Millisecond, // 最大等待时间
+	})
+
+	for {
+		m, err := r.ReadMessage(context.Background())
+		if err != nil {
+			return err
+		}
+		kafkaMsg := &KafkaMessage{}
+		err = json.Unmarshal(m.Value, kafkaMsg)
+		if err != nil {
+			return err
+		}
+
+		err = HandleGrabPointsWithLock(ctx, kafkaMsg)
+		if err != nil {
+			return err
+		}
+	}
+	r.Close()
+	return
+}
+
+//处理抢积分逻辑
+
+func HandleGrabPointsWithLock(ctx context.Context, msg *KafkaMessage) (err error) {
+	//redis分布式锁
+	lockSuccess, err := cache.RedisClient.SetNX(cache.RedisContext, strconv.Itoa(msg.UserId), msg.ActiveId, time.Second*3).Result()
+	if err != nil || !lockSuccess {
+		fmt.Println("get lock fail", err)
+		return errors.New("get lock fail")
+	} else {
+		fmt.Println("get lock success")
+	}
+	err = BattleIntegral(ctx, msg.UserId, msg.ActiveId, msg.Name)
+	if err != nil {
+		return err
+	}
+	value, _ := cache.RedisClient.Get(cache.RedisContext, strconv.Itoa(msg.UserId)).Result()
+	println(value)
+	_, err = cache.RedisClient.Del(cache.RedisContext, strconv.Itoa(msg.UserId)).Result()
+	if err != nil {
+		return err
+	}
+	return
+}
+
+func BattleIntegral(ctx context.Context, userId, activeId int, name string) (err error) {
+	integralDao := dao.NewSeckillDao(ctx)
+	exist, err := integralDao.UserExistsById(userId, activeId)
+	if exist == true {
+		err = errors.New("已经参与")
+		return err
+	}
+	u, err := ctl.GetUserInfo(ctx)
+	userDao := dao.NewUserDao(ctx)
+	user := &model.Seckill{
+		UserId:   userId,
+		ActiveId: activeId,
+		Name:     name,
+	}
+	err = integralDao.CreateCarryIntegral(user)
+	if err != nil {
+		return err
+	}
+	integral, err := userDao.QueryIntegral(u.Username)
+	if err != nil {
+		return err
+	}
+	err = userDao.UpdateIntegralById(u.Id, integral+10)
+	if err != nil {
+		return err
+	}
 	return
 }

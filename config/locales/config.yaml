@@ -2,7 +2,7 @@ system:
   domain: mall
   version: 1.0
   env: "dev"
-  HttpPort: ":8080"
+  HttpPort: ":8081"
   Host: "localhost"
   UploadModel: "local"
 

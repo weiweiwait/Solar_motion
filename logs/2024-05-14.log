@@ -2,3 +2,12 @@
 {"level":"info","msg":"Error 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`solar`.`carry_prize`, CONSTRAINT `carry_prize_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `manager` (`id`))","time":"2024-05-14 00:27:58"}
 {"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-14 08:20:10"}
 {"level":"info","msg":"已经报名，不要重复报名","time":"2024-05-14 08:20:40"}
+{"level":"info","msg":"积分已经抢完","time":"2024-05-14 16:45:22"}
+{"level":"info","msg":"积分已经抢完","time":"2024-05-14 16:45:31"}
+{"level":"info","msg":"积分已经抢完","time":"2024-05-14 16:45:35"}
+{"level":"info","msg":"该活动已经结束","time":"2024-05-14 16:51:10"}
+{"level":"info","msg":"[3] Unknown Topic Or Partition: the request is for a topic or partition that does not exist on this broker","time":"2024-05-14 16:53:00"}
+{"level":"info","msg":"invalid character 'o' looking for beginning of value","time":"2024-05-14 16:54:45"}
+{"level":"info","msg":"invalid character 'o' looking for beginning of value","time":"2024-05-14 16:59:04"}
+{"level":"info","msg":"invalid character 'o' looking for beginning of value","time":"2024-05-14 17:01:27"}
+{"level":"info","msg":"invalid character 'o' looking for beginning of value","time":"2024-05-14 17:02:33"}
