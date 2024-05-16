@@ -82,3 +82,22 @@ func (s *BlogSrv) UserGetAllBlog(ctx context.Context, page, pageSize int) (resp 
 	resp = blogs
 	return
 }
+
+//获取这篇文章的所有图片
+
+func (s *BlogSrv) UserGetAllBlogImages(ctx context.Context, req *types.OtherImagesReq) (resp interface{}, err error) {
+	userDao := dao.NewBlogDao(ctx)
+	userId, err := strconv.Atoi(req.UserId)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	blogId, err := strconv.Atoi(req.BlogId)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	images, err := userDao.GetImagesByUserIdAndBlogId(userId, blogId)
+	resp = images
+	return
+}

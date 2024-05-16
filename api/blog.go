@@ -85,3 +85,24 @@ func GetAllBlog() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//查看这篇文章的所有图片
+
+func GetAllBlogImages() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		var req types.OtherImagesReq
+		if err := context.ShouldBind(&req); err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		l := blog.GetBlogSrv()
+		resp, err := l.UserGetAllBlogImages(context.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
+}

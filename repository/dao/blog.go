@@ -50,3 +50,9 @@ func (dao *BlogDao) GetAllBlogs(page int, pageSize int) ([]model.Blog, error) {
 	}
 	return blogs, nil
 }
+
+//GetAllBlogImages 获取对应文章图片url
+//func (dao *BlogDao) GetAllBlogImages(blog_id int , user_id int) ([]model.Images,error) {
+//	var images []model.Images
+//
+//}

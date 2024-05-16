@@ -12,3 +12,7 @@ type ImagesResp struct {
 type ImagesReq struct {
 	BlogId string `form:"blog_id" json:"blog_id"`
 }
+type OtherImagesReq struct {
+	BlogId string `form:"blog_id" json:"blog_id"`
+	UserId string `form:"user_id" json:"user_id"`
+}
