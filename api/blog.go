@@ -106,3 +106,5 @@ func GetAllBlogImages() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+//发布文章

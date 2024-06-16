@@ -7,9 +7,9 @@ system:
   UploadModel: "local"
 
 es:
-  EsHost: 127.0.0.1
-  EsPort: 9200
-  EsIndex: my_log
+  url: http://127.0.0.1:9200
+  user:
+  password:
 
 mysql:
   default:

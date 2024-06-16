@@ -46,7 +46,7 @@ func (s *BlogSrv) UserPushBlog(ctx context.Context, req *types.Blog) (resp inter
 	return
 }
 
-//
+//用户上传图片
 
 func (s *BlogSrv) UserPushPhoto(ctx context.Context, file multipart.File, fileSize int64, req *types.ImagesReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)

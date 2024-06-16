@@ -18,9 +18,9 @@ type Conf struct {
 }
 
 type Es struct {
-	EsHost  string `yaml:"esHost"`
-	EsPort  string `yaml:"esPort"`
-	EsIndex string `yaml:"esIndex"`
+	URL      string `yaml:"url"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
 }
 
 type MySql struct {
