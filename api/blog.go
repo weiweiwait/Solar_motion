@@ -132,6 +132,7 @@ func PostBlog() gin.HandlerFunc {
 }
 
 // 根据关键词搜索
+
 func SearchBlog() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		keyword := context.Param("keyword")
@@ -148,5 +149,24 @@ func SearchBlog() gin.HandlerFunc {
 			context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 		}
 
+	}
+}
+
+// 查询文章列表
+func GetBlogList() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		way := context.Param("way")
+		page, err := strconv.Atoi(context.Param("page"))
+		var req types.BlogService
+		l := blog.GetBlogSrv()
+		if way != "" && err == nil && page > 0 {
+			resp, err := l.GetBlogList(context, way, page, &req)
+			if err != nil {
+				log.LogrusObj.Infoln(err)
+				context.JSON(http.StatusOK, ErrorResponse(context, err))
+				return
+			}
+			context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+		}
 	}
 }

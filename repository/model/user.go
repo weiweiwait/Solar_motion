@@ -1,6 +1,9 @@
 package model
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
+)
 
 type User struct {
 	ID           uint
@@ -32,4 +35,12 @@ func (u *User) SetPassword(password string) error {
 func (u *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 	return err == nil
+}
+
+type User1 struct {
+	gorm.Model
+	NickName string `gorm:"type:varchar(25) not null"`
+	Email    string `gorm:"type:varchar(20) not null unique"`
+	Password string `gorm:"type:varchar(255)"`
+	Icon     string `gorm:"default:default.jpg"`
 }

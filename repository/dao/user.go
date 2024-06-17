@@ -120,3 +120,8 @@ func (dao *UserDao) UpdateIntegralById(uId uint, integral int) (err error) {
 	return dao.DB.Model(&model.User{}).Where("id=?", uId).
 		Updates(map[string]interface{}{"integral": integral}).Error
 }
+func (dao *UserDao) GetUser(email string) *model.User1 {
+	u := &model.User1{}
+	dao.DB.Where("email = ?", email).Find(u)
+	return u
+}

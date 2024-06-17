@@ -5,6 +5,7 @@ import (
 	"Solar_motion/pkg/utils/log"
 	"Solar_motion/pkg/utils/upload"
 	"Solar_motion/repository/dao"
+	"Solar_motion/repository/dto"
 	"Solar_motion/repository/model"
 	"Solar_motion/types"
 	"context"
@@ -160,7 +161,35 @@ func (s *BlogSrv) PostBlog(ctx *gin.Context, req *types.BlogService) (resp inter
 
 func (s *BlogSrv) SearchByKeyWord(ctx *gin.Context, keyword string, page int, req *types.BlogService) (resp interface{}, err error) {
 	blogDao := dao.NewBlogDao1(ctx)
+	userDao := dao.NewUserDao(ctx)
 	err, blogs, _ := blogDao.SearchByKeyWord(keyword, page)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	if len(blogs) == 0 {
+		err = errors.New("没有跟多的文章了")
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	var emails []string
+	var users []model.User1
+	for _, blog := range blogs {
+		emails = append(emails, blog.Email)
+	}
+	for _, email := range emails {
+		users = append(users, *userDao.GetUser(email)) //userDao.GetUser(email)
+	}
+	//mysql查找作者信息
+	userDtos := dto.BuildUserList(users)
+	resp = dto.BuildBlogList(blogs, make([]string, len(blogs)+1), userDtos)
+	return resp, nil
+}
+
+func (s *BlogSrv) GetBlogList(ctx *gin.Context, way string, page int, req *types.BlogService) (resp interface{}, err error) {
+	blogDao := dao.NewBlogDao1(ctx)
+	userDao := dao.NewUserDao(ctx)
+	blogs, err := blogDao.GetBlogList(way, page)
 	if err != nil {
 		log.LogrusObj.Error(err)
 		return nil, err
@@ -174,6 +203,11 @@ func (s *BlogSrv) SearchByKeyWord(ctx *gin.Context, keyword string, page int, re
 	for _, blog := range blogs {
 		emails = append(emails, blog.Email)
 	}
-	resp = blogs
+	var users []model.User1
+	for _, email := range emails {
+		users = append(users, *userDao.GetUser(email)) //userDao.GetUser(email)
+	}
+	userDtos := dto.BuildUserList(users)
+	resp = dto.BuildBlogList(blogs, make([]string, len(blogs)+1), userDtos)
 	return resp, nil
 }

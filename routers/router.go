@@ -71,6 +71,8 @@ func NewRouter() *gin.Engine {
 			authed.POST("/user/images", api.GetAllBlogImages())
 			//19根据关键字搜索
 			authed.GET("/user/search", api.SearchBlog())
+			//20获取文章列表
+			authed.GET("/user/Get", api.GetBlogList())
 		}
 		//管理员注册
 		v1.POST("/manager/register", api.ManagerRegister())
