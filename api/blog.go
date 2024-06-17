@@ -107,4 +107,7 @@ func GetAllBlogImages() gin.HandlerFunc {
 	}
 }
 
-//发布文章
+// 发布文章
+func PostBlog(ctx *gin.Context) {
+
+}
