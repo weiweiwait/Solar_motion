@@ -29,7 +29,7 @@ func (dao *BlogDao1) UploadBlogPictures(id string, urls []string) error {
 	return err
 }
 
-func (dao *BlogDao1) SearchByKeyWord(keyword string, page int) (err error, blogs []*model.Blog, highlights []string) {
+func (dao *BlogDao1) SearchByKeyWord(keyword string, page int) (err error, blogs []*model.Blog1, highlights []string) {
 	blogTitleHighlight := elastic.NewHighlighterField("blogTitle")
 	contentHighlight := elastic.NewHighlighterField("content")
 	contentHighlight.FragmentSize(5)
@@ -53,7 +53,7 @@ func (dao *BlogDao1) SearchByKeyWord(keyword string, page int) (err error, blogs
 		return
 	}
 	for _, hit := range result.Hits.Hits {
-		blog := &model.Blog{}
+		blog := &model.Blog1{}
 		if err = json.Unmarshal([]byte(hit.Source), blog); err != nil {
 			return
 		}

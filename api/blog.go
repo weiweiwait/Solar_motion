@@ -130,3 +130,23 @@ func PostBlog() gin.HandlerFunc {
 		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
 	}
 }
+
+// 根据关键词搜索
+func SearchBlog() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		keyword := context.Param("keyword")
+		page, err := strconv.Atoi(context.Param("page"))
+		var req types.BlogService
+		l := blog.GetBlogSrv()
+		if keyword != "" && err == nil && page > 0 {
+			resp, err := l.SearchByKeyWord(context, keyword, page, &req)
+			if err != nil {
+				log.LogrusObj.Infoln(err)
+				context.JSON(http.StatusOK, ErrorResponse(context, err))
+				return
+			}
+			context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+		}
+
+	}
+}

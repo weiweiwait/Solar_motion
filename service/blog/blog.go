@@ -8,6 +8,7 @@ import (
 	"Solar_motion/repository/model"
 	"Solar_motion/types"
 	"context"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"mime/multipart"
 	"strconv"
@@ -155,4 +156,24 @@ func (s *BlogSrv) PostBlog(ctx *gin.Context, req *types.BlogService) (resp inter
 		return nil, err
 	}
 	return
+}
+
+func (s *BlogSrv) SearchByKeyWord(ctx *gin.Context, keyword string, page int, req *types.BlogService) (resp interface{}, err error) {
+	blogDao := dao.NewBlogDao1(ctx)
+	err, blogs, _ := blogDao.SearchByKeyWord(keyword, page)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	if len(blogs) == 0 {
+		err = errors.New("没有跟多的文章了")
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
+	var emails []string
+	for _, blog := range blogs {
+		emails = append(emails, blog.Email)
+	}
+	resp = blogs
+	return resp, nil
 }
