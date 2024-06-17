@@ -16,3 +16,12 @@ type OtherImagesReq struct {
 	BlogId string `form:"blog_id" json:"blog_id"`
 	UserId string `form:"user_id" json:"user_id"`
 }
+
+type BlogService struct {
+	BlogId string `form:"blogId"`
+	//Pictures string `form:"pictures"` // 图片
+	BlogTitle string `form:"blogTitle"`
+	Email     string `form:"email"`
+	Content   string `form:"content"`
+	Location  string `form:"location"`
+}

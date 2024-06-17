@@ -8,9 +8,11 @@ import (
 	"Solar_motion/repository/model"
 	"Solar_motion/types"
 	"context"
+	"github.com/gin-gonic/gin"
 	"mime/multipart"
 	"strconv"
 	"sync"
+	"time"
 )
 
 var BlogSrvIns *BlogSrv
@@ -99,5 +101,58 @@ func (s *BlogSrv) UserGetAllBlogImages(ctx context.Context, req *types.OtherImag
 	}
 	images, err := userDao.GetImagesByUserIdAndBlogId(userId, blogId)
 	resp = images
+	return
+}
+func (s *BlogSrv) PostBlog(ctx *gin.Context, req *types.BlogService) (resp interface{}, err error) {
+	blogDao := dao.NewBlogDao1(ctx)
+	//获取图片
+	form, _ := ctx.MultipartForm()
+	fileHeaders := form.File["pictures"]
+	//校验图片类型和大小
+	for _, header := range fileHeaders {
+		//校验文件
+		if header.Size > (8 << 18) {
+		}
+		if typ := header.Header.Get("Content-Type"); typ != "image/png" &&
+			typ != "image/gif" &&
+			typ != "image/jpeg" &&
+			typ != "image/jpg" &&
+			typ != "image/jfif" &&
+			typ != "image/bmp" {
+		}
+
+	}
+	var pictureUrls []string
+	for _, header := range fileHeaders {
+		file, err := header.Open()
+		if err != nil {
+			log.LogrusObj.Error(err)
+			return nil, err
+		}
+		if url, err := upload.ToQiNiu(file, header.Size); err != nil {
+			log.LogrusObj.Error(err)
+			return nil, err
+		} else {
+			pictureUrls = append(pictureUrls, url)
+		}
+		_ = file.Close()
+	}
+
+	//封装model
+	blog := &model.Blog1{
+		CreatedAt:      time.Now(),
+		Email:          req.Email,
+		Location:       req.Location,
+		BlogTitle:      req.BlogTitle,
+		Content:        req.Content,
+		Pictures:       pictureUrls,
+		GetLikesNumber: 0,
+	}
+	//存储在es中
+	_, err = blogDao.IndexBlog(blog)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return nil, err
+	}
 	return
 }

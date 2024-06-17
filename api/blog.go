@@ -108,6 +108,25 @@ func GetAllBlogImages() gin.HandlerFunc {
 }
 
 // 发布文章
-func PostBlog(ctx *gin.Context) {
 
+func PostBlog() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		var req types.BlogService
+		l := blog.GetBlogSrv()
+		//file, fileHeader, _ := context.Request.FormFile("file")
+		//if fileHeader == nil {
+		//	err := errors.New(e.GetMsg(e.ErrorUploadFile))
+		//	context.JSON(consts.IlleageRequest, ErrorResponse(context, err))
+		//	log.LogrusObj.Infoln(err)
+		//	return
+		//}
+		//fileSize := fileHeader.Size
+		resp, err := l.PostBlog(context, &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			context.JSON(http.StatusOK, ErrorResponse(context, err))
+			return
+		}
+		context.JSON(http.StatusOK, ctl.RespSuccess(context, resp))
+	}
 }
